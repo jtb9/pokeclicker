@@ -9,7 +9,7 @@
     "ts-test": "gulp scripts",
     "eslint": "eslint --ext ts ./src/scripts ./src/modules",
     "eslint-fix": "eslint --ext ts --fix ./src/scripts ./src/modules",
-    "website": "npm test && cross-env NODE_ENV=production gulp website",
+    "website": "cross-env NODE_ENV=development gulp",
     "publish": "npm test && git push origin develop:master"
   },
   "repository": {
@@ -23,7 +23,7 @@
   },
   "author": "RedSparr0w",
   "license": "ISC",
-  "bugs": {
+  "bugs": { 
     "url": "https://github.com/pokeclicker/pokeclicker/issues"
   },
   "homepage": "https://github.com/pokeclicker/pokeclicker#readme",
@@ -73,6 +73,9 @@
     "webpack-stream": "^6.1.0"
   },
   "dependencies": {
+    "@capacitor/cli": "^3.0.0",
+    "@capacitor/core": "^3.0.0",
+    "@capacitor/ios": "^3.0.0",
     "@types/bootstrap": "^4.3.1",
     "@types/bootstrap-notify": "^3.1.34",
     "@types/intro.js": "^2.4.7",
@@ -85,10 +88,5 @@
     "knockout": "^3.5.1",
     "popper.js": "^1.16.0",
     "sortablejs": "^1.10.2"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run eslint"
-    }
   }
 }

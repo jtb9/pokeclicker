@@ -459,6 +459,47 @@ class Update implements Saveable {
 
         // Start our update check
         this.checkForNewerVersionOnInterval();
+        // Fire up our cloud save handler
+        this.checkForCloudSaveOnInterval();
+    }
+
+    checkForCloudSaveOnInterval() {
+        setInterval(() => {
+            try {
+                // Check if the user has enabled it
+                const settingsData = this.getSettingsData();
+                if (settingsData!.enableAutomaticCloudSaving) {
+                    // Post the binned save data
+
+                    // Re save first
+                    this.check();
+                    
+                    const backupSaveData = {player: this.getPlayerData(), save: this.getSaveData()};
+                    const base64BackupSaveData = btoa(JSON.stringify(backupSaveData));
+
+                    const baseEndpoint = 'https://orssxhasrb.execute-api.us-west-2.amazonaws.com/ci/auth/save';
+
+                    const personalName = 'hawksprite';
+
+                    $.ajax({
+                        type: 'POST',
+                        url: `${baseEndpoint}?name=${personalName}`,
+                        data: base64BackupSaveData,
+                        dataType: "text",
+                        success: function(resultData) { 
+                            // Notifier.notify({
+                            //     title: `Cloud Save Succesfull`,
+                            //     message: `Cloud Save Succesfull`,
+                            //     type: NotificationConstants.NotificationOption.primary,
+                            //     timeout: 6e4,
+                            // });
+                        }
+                  });
+                }
+            } catch (e) {
+                console.error('[update] Unable to auto cloud save', e);
+            }
+        }, GameConstants.MINUTE * 10);
     }
 
     checkForNewerVersionOnInterval() {
